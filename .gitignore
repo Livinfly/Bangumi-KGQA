@@ -1,0 +1,5 @@
+data/raw_data/*
+# data/reduced_data/*
+node_modules
+package.json
+package-lock.json
