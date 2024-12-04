@@ -10,20 +10,19 @@ subject_head = 5000  # 取前多少行 subject
 recover_flag = False # 是否覆盖
 
 # subject
-input_file = 'subject.jsonlines'
-output_file = 'subject_reduced.jsonlines'
+file = 'subject.jsonlines'
 
-input_path = os.path.join(raw_path, input_file)
-output_path = os.path.join(reduced_path, output_file)
+input_path = os.path.join(raw_path, file)
+output_path = os.path.join(reduced_path, file)
 
 if os.path.exists(output_path) and not recover_flag:
-    if echo_flag: print(f"{output_file} 已存在。")
+    if echo_flag: print(f"{file} 已存在。")
 else:    
     with jsonlines.open(input_path) as reader, jsonlines.open(output_path, mode='w') as writer:
         for lino, line in enumerate(reader):
             if lino >= subject_head: break
             writer.write(line)
-    if echo_flag: print(f'{output_file} 已处理。')
+    if echo_flag: print(f'{file} 已处理。')
 
 subject_id_set = set()
 
@@ -36,16 +35,15 @@ with jsonlines.open(output_path) as reader:
 print(f'subject_id size: {len(subject_id_set)}')
 
 # subject-subject
-input_file = 'subject-relations.jsonlines'
-output_file = 'subject-relations_reduced.jsonlines'
+file = 'subject-relations.jsonlines'
 
-input_path = os.path.join(raw_path, input_file)
-output_path = os.path.join(reduced_path, output_file)
+input_path = os.path.join(raw_path, file)
+output_path = os.path.join(reduced_path, file)
 
 subject_relation_size = 0
 
 if os.path.exists(output_path) and not recover_flag:
-    if echo_flag: print(f"{output_file} 已存在。")
+    if echo_flag: print(f"{file} 已存在。")
     with open(output_path, 'r', encoding='utf-8') as file:
         subject_relation_size =  sum(1 for _ in file)
 else:    
@@ -57,21 +55,20 @@ else:
                 if sid in subject_id_set and rsid in subject_id_set: 
                     writer.write(line)
                     subject_relation_size += 1
-    if echo_flag: print(f'{output_file} 已处理。')
+    if echo_flag: print(f'{file} 已处理。')
 
 print(f'subject_relation size: {subject_relation_size}')
 
 # subject-character
-input_file = 'subject-characters.jsonlines'
-output_file = 'subject-characters_reduced.jsonlines'
+file = 'subject-characters.jsonlines'
 
-input_path = os.path.join(raw_path, input_file)
-output_path = os.path.join(reduced_path, output_file)
+input_path = os.path.join(raw_path, file)
+output_path = os.path.join(reduced_path, file)
 
 subject_character_relation_size = 0
 
 if os.path.exists(output_path) and not recover_flag:
-    if echo_flag: print(f"{output_file} 已存在。")
+    if echo_flag: print(f"{file} 已存在。")
     with open(output_path, 'r', encoding='utf-8') as file:
         subject_character_relation_size =  sum(1 for _ in file)
 else:    
@@ -82,7 +79,7 @@ else:
                 if sid in subject_id_set: 
                     writer.write(line)
                     subject_character_relation_size += 1
-    if echo_flag: print(f'{output_file} 已处理。')
+    if echo_flag: print(f'{file} 已处理。')
 
 print(f'subject_character_relation size: {subject_character_relation_size}')
 
@@ -97,14 +94,13 @@ with jsonlines.open(output_path) as reader:
 print(f'character_id size: {len(character_id_set)}')
 
 # character
-input_file = 'character.jsonlines'
-output_file = 'character_reduced.jsonlines'
+file = 'character.jsonlines'
 
-input_path = os.path.join(raw_path, input_file)
-output_path = os.path.join(reduced_path, output_file)
+input_path = os.path.join(raw_path, file)
+output_path = os.path.join(reduced_path, file)
 
 if os.path.exists(output_path) and not recover_flag:
-    if echo_flag: print(f"{output_file} 已存在。")
+    if echo_flag: print(f"{file} 已存在。")
 else:    
     with jsonlines.open(input_path) as reader, jsonlines.open(output_path, mode='w') as writer:
         for line in reader:
@@ -112,19 +108,18 @@ else:
                 cid = int(line['id'])
                 if cid in character_id_set: 
                     writer.write(line)
-    if echo_flag: print(f'{output_file} 已处理。')
+    if echo_flag: print(f'{file} 已处理。')
 
 # subject-person
-input_file = 'subject-persons.jsonlines'
-output_file = 'subject-persons_reduced.jsonlines'
+file = 'subject-persons.jsonlines'
 
-input_path = os.path.join(raw_path, input_file)
-output_path = os.path.join(reduced_path, output_file)
+input_path = os.path.join(raw_path, file)
+output_path = os.path.join(reduced_path, file)
 
 subject_person_relation_size = 0
 
 if os.path.exists(output_path) and not recover_flag:
-    if echo_flag: print(f"{output_file} 已存在。")
+    if echo_flag: print(f"{file} 已存在。")
     with open(output_path, 'r', encoding='utf-8') as file:
         subject_person_relation_size =  sum(1 for _ in file)
 else:    
@@ -135,7 +130,7 @@ else:
                 if sid in subject_id_set: 
                     writer.write(line)
                     subject_person_relation_size += 1
-    if echo_flag: print(f'{output_file} 已处理。')
+    if echo_flag: print(f'{file} 已处理。')
 
 print(f'subject_person_relation size: {subject_person_relation_size}')
 
@@ -150,14 +145,13 @@ with jsonlines.open(output_path) as reader:
 print(f'person_id size: {len(person_id_set)}')
 
 # person
-input_file = 'person.jsonlines'
-output_file = 'person_reduced.jsonlines'
+file = 'person.jsonlines'
 
-input_path = os.path.join(raw_path, input_file)
-output_path = os.path.join(reduced_path, output_file)
+input_path = os.path.join(raw_path, file)
+output_path = os.path.join(reduced_path, file)
 
 if os.path.exists(output_path) and not recover_flag:
-    if echo_flag: print(f"{output_file} 已存在。")
+    if echo_flag: print(f"{file} 已存在。")
 else:    
     with jsonlines.open(input_path) as reader, jsonlines.open(output_path, mode='w') as writer:
         for line in reader:
@@ -165,19 +159,18 @@ else:
                 pid = int(line['id'])
                 if pid in person_id_set: 
                     writer.write(line)
-    if echo_flag: print(f'{output_file} 已处理。')
+    if echo_flag: print(f'{file} 已处理。')
 
 # person-character
-input_file = 'person-characters.jsonlines'
-output_file = 'person-characters_reduced.jsonlines'
+file = 'person-characters.jsonlines'
 
-input_path = os.path.join(raw_path, input_file)
-output_path = os.path.join(reduced_path, output_file)
+input_path = os.path.join(raw_path, file)
+output_path = os.path.join(reduced_path, file)
 
 person_character_relation_size = 0
 
 if os.path.exists(output_path) and not recover_flag:
-    if echo_flag: print(f"{output_file} 已存在。")
+    if echo_flag: print(f"{file} 已存在。")
     with open(output_path, 'r', encoding='utf-8') as file:
         person_character_relation_size =  sum(1 for _ in file)
 else:    
@@ -190,14 +183,14 @@ else:
                 if pid in person_id_set and sid in subject_id_set and cid in character_id_set: 
                     writer.write(line)
                     person_character_relation_size += 1
-    if echo_flag: print(f'{output_file} 已处理。')
+    if echo_flag: print(f'{file} 已处理。')
 
 print(f'person_character_relation size: {person_character_relation_size}')
 
 # tag
-input_file = 'subject_reduced.jsonlines'
+file = 'subject.jsonlines'
 
-input_path = os.path.join(reduced_path, input_file)
+input_path = os.path.join(reduced_path, file)
 
 tag_set = set()
 subject_tag_relation_size = 0

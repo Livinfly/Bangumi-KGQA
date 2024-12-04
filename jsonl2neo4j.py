@@ -17,7 +17,7 @@ import json, jsonlines, py2neo
 from wiki_parser import call_parse2, get_attr_val
 from const import SubjectType
 
-raw_path = './data/raw/'
+raw_path = './data/reduced_data/'
 
 # subject
 jsonlines_file = 'subject.jsonlines'
