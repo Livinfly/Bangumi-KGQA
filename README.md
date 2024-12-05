@@ -4,13 +4,19 @@
 
 
 
-关于 **jsonlines** 的键值含义、结构，见数据来源：[bangumi/Archive: Wiki Data Public Archive](https://github.com/bangumi/Archive)
+关于 **jsonlines** 的键值含义、结构，见数据来源：[bangumi/Archive: Wiki Data Public Archive](https://github.com/bangumi/Archive) 。
+
+常量对应关系见 [bangumi/common](https://github.com/bangumi/common) 。
 
 
 
 原数据中 **subject** 约有 500k 条，**person** 约有 70k 条，**character** 约 170k 条，**episode** 约 1370k 条。
 
-因 **neo4j** 的免费额度对节点和关系的限制（节点 200k，关系 400k），为了项目 demo 的顺利运行，对数据进行了阉割，但应当还是能够对后来者想要利用 **bangumi** 进行知识图谱研究的做出点参考。
+因 **neo4j** 的**线上版本**免费额度对节点和关系的限制（节点 200k，关系 400k，若使用本地社区版则对本项目来说，），为了项目 demo 的顺利运行，对数据进行了阉割，但应当还是能够对后来者想要利用 **bangumi** 进行知识图谱研究的做出点参考。
+
+
+
+同时，设计了仅取 **subject** 前 10 条构成的知识图谱作为初期调试。
 
 
 
@@ -23,40 +29,52 @@
 ```yaml
 Entity:
 - subject         # 5000
-  - id
-  - type    # ?
-  - name
+  - subject_id
+  - type    # + platform
+  - name    # 中文名 name_cn
   - name_cn
-  - infobox # ?
-  - summary # ?
+  - infobox # type_cn
+  - summary # 简介
   - date
   - score
   - rank
 - person          # 13336
-  - id
+  - person_id
   - name
-  - type
   - career
-  - infobox # ?
-  - summary # ?
+  - infobox # 简体中文名 name_cn
+  - summary # 简介
 - character       # 23205
-  - id
+  - character_id
   - name
   - role
-  - infobox # ?
-  - summary # ?
+  - infobox # 简体中文名
+  - summary # 简介
 - tag                # 10566
   - name
 
 Relations:
 - subject-subject    # 6028
-- subject-character  # 33012
-- subject-person     # 92771
+  - RELATION
+- subject-character  # 33012 x 2
+  - BELONGS_TO
+  - HAS_CHARACTER
+- subject-person     # 92771 x 2
+  - PARTICIPATED_IN
+  - HAS_PARTICIPANT
 - person-character   # 8818
+  - ACTED_AS
+  - PORTRAYED_BY
 - subject-tag        # 43912
-
+  - HAS_TAG
+  - TAGGED_IN
 # Node size: 52107
 # Relation size: 184541
 ```
 
 由于关系会建双向边，为了不让关系超出额度，选用前 5k **subject** 比较合适。
+
+同时，由于时间有点有限，对 **infobox** 和 **summary** 的利用都有限，未来若有想接着往后推进的可以考虑对这两者的优化，**summary** 做特征词提取，增加 **career** 实体之类的；这里对 **infobox** 主要是对没有 **name_cn** 实体，进行补充中文名。
+
+
+
