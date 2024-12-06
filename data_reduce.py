@@ -6,8 +6,8 @@ raw_path = './data/raw_data'
 reduced_path = './data/reduced_data'
 
 echo_flag = False    # 是否输出文件生成相关提示
-subject_head = 10  # 取前多少行 subject
-recover_flag = True # 是否覆盖
+subject_head = 5000  # 取前多少行 subject
+recover_flag = False # 是否覆盖
 
 # subject
 file = 'subject.jsonlines'

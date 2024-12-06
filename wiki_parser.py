@@ -14,8 +14,8 @@ def call_parse2(wiki_string):
         try:
             return json.loads(result.stdout)  # 将返回的 JSON 字符串解析成字典
         except json.JSONDecodeError:
-            print("Failed to parse JSON from Node.js output.")
-            return None
+            # print("Failed to parse JSON from Node.js output.")
+            return {}
     else:
         print("Error in Node.js script:", result.stderr)
         return None
