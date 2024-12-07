@@ -26,7 +26,7 @@
 
 ```sh
 │  .gitignore
-│  const.py                              # 常量
+│  const.py                              # 常量，反复调用的数据
 │  data_reduce.py                        # 生成部分数据
 │  image.png
 │  jsonl2neo4j.py                        # 数据导入图数据库 neo4j
@@ -34,6 +34,9 @@
 │  request.jpg
 │  wiki_parser.mjs                       # wiki-parse js调用
 │  wiki_parser.py                        # wiki-parse py调用
+|  get_patterns.py                       # 生成 QA_data 词袋等
+|  QA.py                                 # 问答系统入口
+|  question2answer.py                    # 问题的实体识别、意愿解析
 │
 ├─data
 │  │  subject_platforms.yml              # 常量对应关系
@@ -48,7 +51,7 @@
 |  ├─bangumi_neo4j_10
 │  └─bangumi_neo4j_5k
 │
-└─QA                                     # 问答系统
+└─QA_data                                # 问题解析等需要用到的 data
 ```
 
 

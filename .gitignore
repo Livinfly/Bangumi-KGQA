@@ -3,3 +3,5 @@ data/raw_data/*
 node_modules
 package.json
 package-lock.json
+report.md
+report.pdf
