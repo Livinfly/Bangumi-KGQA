@@ -52,6 +52,8 @@
 │  └─bangumi_neo4j_5k
 │
 └─QA_data                                # 问题解析等需要用到的 data
+|
+└─report                                 # 课程作业报告与 latex 源文件
 ```
 
 
@@ -64,7 +66,7 @@
 
 ```yaml
 Entity:
-- subject         # 5000
+- subject:           # 5000
   - subject_id
   - type
   - name    # 中文名 name_cn
@@ -75,39 +77,41 @@ Entity:
   - date
   - score
   - rank
-- person          # 13336
+- person:             # 13336
   - person_id
   - name
   - career
   - infobox # 简体中文名 name_cn
   - summary # 简介
-- character       # 23205
+- character:          # 23205
   - character_id
   - name
   - role
   - infobox # 简体中文名 name_cn
   - summary # 简介
-- tag                # 10566
+- tag:                # 10566
   - name
 
 Relations:
-- subject-subject    # 6028
+- subject-subject:    # 6028
   - RELATES_TO
-- subject-character  # 33012 x 2
+- subject-character:  # 33012 x 2
   - BELONGS_TO
   - HAS_CHARACTER
-- subject-person     # 92771 x 2
+- subject-person:     # 92771 x 2
   - PARTICIPATED_IN
   - HAS_PARTICIPANT
-- person-character   # 8818
+- person-character:   # 8818
   - ACTED_AS
   - PORTRAYED_BY
-- subject-tag        # 43912
+- subject-tag:        # 43912
   - HAS_TAG
   - TAGGED_IN
 # Node size: 52107
 # Relation size: 184541 -> 326110
 ```
+
+![img](README.assets/KG_structure.com.png)
 
 由于关系会建双向边，为了不让关系超出额度，选用前 5k **subject** 比较合适。
 
