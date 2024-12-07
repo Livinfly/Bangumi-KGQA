@@ -4,7 +4,7 @@
 
 
 
-~~由于本身作为课程大作业，需要赶时间~~，QA 部分的实现很 simple，后续还有热情的话，会更新 KG-Embedding 的方式。（大概）
+~~由于本身作为课程大作业，需要赶时间~~，QA 部分的实现很 simple，大概只能做单实体的 **1-hop** 问题，后续还有热情的话，会更新 KG-Embedding 的方式。（大概）
 
 可以参照本仓库的知识图谱构建方式，不再需要从零开始构建 **Bangumi** 知识图谱是本人的本愿。
 
@@ -43,7 +43,7 @@
 │  ├─raw_data                            # Archive 数据
 │  └─reduced_data                        # raw_data 的部分数据，放出来的是前十条go
 │
-├─KG_neo4j                               # 10、5k条构建的知识图谱 csv 导出文件
+├─KG_neo4j                               # 10、5k条构建的知识图谱 csv&dump 导出文件
 │  │
 |  ├─bangumi_neo4j_10
 │  └─bangumi_neo4j_5k
@@ -82,7 +82,7 @@ Entity:
   - character_id
   - name
   - role
-  - infobox # 简体中文名
+  - infobox # 简体中文名 name_cn
   - summary # 简介
 - tag                # 10566
   - name
@@ -110,6 +110,45 @@ Relations:
 
 同时，由于时间有点有限，对 **infobox** 和 **summary** 的利用都有限，未来若有想接着往后推进的可以考虑对这两者的优化，**summary** 做特征词提取，增加 **career** 实体之类的；这里对 **infobox** 主要是对没有 **name_cn** 实体，进行补充中文名。
 
+## 知识图谱导入说明
+
+```sh
+# 管理员模式 neo4j 5.x.x 版本
+# neo4j 为数据库名字，要和 name.dump 的 name 一致。
+# community 版本好像只能有一个数据库
+# 若已存在 --overwrite-destination=true ，覆盖
+
+neo4j-admin database load --from-path=[...]/KG_neo4j/bangumi_neo4j_5k [database name you wanted] --overwrite-destination=true
+```
+
+## 问答系统设计
+
+先说明本问答系统的性能，只支持单实体的属性、关系实体的提问，支持的提问类型可以后续增加。
+
+不过可拓展性较弱，~~写成这样主要确实赶时间了~~。
+
+主要思路如下：
+
+先进行「实体识别」。用 **spacy** 进行分词（导入自己的词袋），不用它实体识别是由于 **spacy** 貌似不能模糊匹配，而我做的数据预处理并不优秀，所以需要模糊匹配。
+
+然后对每个分词都进行相似度比较，选出实体最高的前k个，最后选出和整个句子的相似度最高的作为整个句子的实体。
+
+再解析「问题意愿」。对设定的意愿进行暴力匹配。
+
+最后，手动构建 **Cypher** 模板，进行查询输出。
+
+## 使用说明
+
+安装依赖库，运行 **QA.py** 即可。
+
 ## 效果演示
 
 ![img](README.assets/{7573BCDA-A6C2-4258-9152-30B638AA5CEA})
+
+![img](README.assets/showtime.png)
+
+## 其他
+
+Neo4j 构建用时：
+
+![img](README.assets/time.png)

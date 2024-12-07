@@ -2,9 +2,10 @@
 Entity:
 - subject         # 5000
   - subject_id
-  - type    # + platform
+  - type
   - name    # 中文名 name_cn
   - name_cn
+  - platform # type + *
   - infobox # type_cn
   - summary # 简介
   - date
@@ -20,7 +21,7 @@ Entity:
   - character_id
   - name
   - role
-  - infobox # 简体中文名
+  - infobox # 简体中文名 name_cn
   - summary # 简介
 - tag                # 10566
   - name
@@ -41,19 +42,15 @@ Relations:
   - HAS_TAG
   - TAGGED_IN
 # Node size: 52107
-# Relation size: 184541
+# Relation size: 184541 -> 326110
 '''
 
 import os
-import json, jsonlines, py2neo
+import jsonlines
 from wiki_parser import call_parse2, get_attr_val
-from const import platform_const, relation_const, staff_const, neo4j_const, PersonType, CharacterRole, CharacterType
+from const import graph, platform_const, relation_const, staff_const, neo4j_const, PersonType, CharacterRole, CharacterType
 from py2neo import Graph, Node, Relationship
 from tqdm import tqdm
-
-# neo4j
-uri, usr, psw = neo4j_const.values()
-graph = Graph(uri, auth=(usr, psw))
 
 # 设定唯一性限制，不满足是抛出异常
 # 由于 py2neo 不再维护，在 neo4j 版本较新时，会报错
@@ -257,3 +254,4 @@ with jsonlines.open(os.path.join(raw_path, jsonlines_file)) as jsonl:
             graph.create(CP_relation)
         else:
             print('P/C miss node.')
+

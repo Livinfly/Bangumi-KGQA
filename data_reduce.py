@@ -1,6 +1,5 @@
 import os
-import json, jsonlines, py2neo
-from wiki_parser import call_parse2, get_attr_val
+import jsonlines
 
 raw_path = './data/raw_data'
 reduced_path = './data/reduced_data'
